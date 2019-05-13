@@ -5,36 +5,40 @@ master = tk.Tk()
 w = tk.Canvas(master, width=600, height=400, bg='black')
 w.pack()
 
-x,y = w.winfo_height() / 2, w.winfo_width() / 2
+x, y = w.winfo_height() / 2, w.winfo_width() / 2
 vx, vy = 80.0, 150.0
 
-particle = w.create_oval(x,y, 60,60, outline='yellow')
+diameter = 60
+particle = w.create_oval(x, y, diameter, diameter, outline='yellow')
+min_x, min_y = 0, 0
+
 
 def update(dt):
-    global x,y, vx, vy
-    oldx, oldy = x,y
+    global x, y, vx, vy
+    old_x, old_y = x, y
     x += vx*dt
     y += vy*dt
 
-    if x + 60 > w.winfo_width():
-        x = w.winfo_width() - 60
+    if x + diameter > w.winfo_width():
+        x = w.winfo_width() - diameter
         vx = - vx
 
-    if x < 0:
-        x = 0
+    if x < min_x:
+        x = min_x
         vx = - vx
 
-    if y + 60 > w.winfo_height():
-        y = w.winfo_height() - 60
+    if y + diameter > w.winfo_height():
+        y = w.winfo_height() - diameter
         vy = - vy
 
-    if y < 0:
-        y = 0
+    if y < min_y:
+        y = min_y
         vy = - vy
 
-    w.move(particle, x-oldx, y-oldy)
+    w.move(particle, x-old_x, y-old_y)
     w.update()
-    w.after(17, update, 1/60.0)
+    w.after(17, update, 1/diameter)
+
 
 update(0)
 
