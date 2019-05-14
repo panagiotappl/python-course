@@ -1,3 +1,6 @@
+from math import sqrt
+
+
 class Vector2D:
 
     def __init__(self, x, y):
@@ -17,22 +20,23 @@ class Vector2D:
             self.y = value
 
     def __add__(self, vector):
-        return Vector(self.x + vector[0], self.y + vector[1])
+        return Vector2D(self.x + vector[0], self.y + vector[1])
 
     def __sub__(self, vector):
-        return Vector(self.x - vector[0], self.y - vector[1])
+        return Vector2D(self.x - vector[0], self.y - vector[1])
 
     def __neg__(self):
-        return Vector(-self.x, -self.y)
+        return Vector2D(-self.x, -self.y)
 
     def __mul__(self, s):
-        return Vector(self.x * s, self.y * s)
+        return Vector2D(self.x * s, self.y * s)
 
     def __rmul__(self, s):
-        return Vector(self.x * s, self.y * s)
+        return Vector2D(self.x * s, self.y * s)
 
     def __truediv__(self, s):
-        return Vector(self.x / s, self.y / s)
+        return Vector2D(self.x / s, self.y / s)
 
     def __abs__(self):
         return sqrt(self.x * self.x + self.y * self.y)
+
