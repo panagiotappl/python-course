@@ -8,7 +8,6 @@ fps_display = pyglet.clock.ClockDisplay()
 x, y = window.width / 2, window.height / 2
 vx, vy = 80.0, 150.0
 radius = 30
-color = dict(x=1.0, y=1.0, z=0)
 fps = 60
 
 
@@ -24,7 +23,7 @@ def on_draw():
             yield y + radius * sin(angle)
             angle += delta_angle
 
-    pyglet.gl.glColor3f(color['x'], color['y'], color['z'])
+    pyglet.gl.glColor3f(1.0, 1.0, 0)
     pyglet.graphics.draw(20, pyglet.gl.GL_LINE_LOOP,
                          ('v2f', tuple(circle_vertices())))
 

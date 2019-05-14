@@ -9,7 +9,7 @@ x, y = w.winfo_height() / 2, w.winfo_width() / 2
 vx, vy = 80.0, 150.0
 
 diameter = 60
-particle = w.create_oval(x, y, diameter, diameter, outline='yellow')
+particle = w.create_oval(x, y, 60, 60, outline='yellow')
 min_x, min_y = 0, 0
 
 

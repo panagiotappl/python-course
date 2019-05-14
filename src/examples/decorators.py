@@ -48,6 +48,10 @@ def bad(a, b):
 print(bad(2, 3))
 
 
+def test_bad_should_give_correct_answer_for_2_and_3():
+    assert bad(2, 3) == 6
+
+
 ###################
 def eins(_):
     return 1
