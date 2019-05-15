@@ -19,6 +19,15 @@ class Colour:
     def as_rgb_f(self):
         return ''.join(self.n_to_f[int(v*15)] for v in self._rgb_01)
 
+    def __hash__(self):
+        return hash(self._rgb_01)
+
+    def __eq__(self, other):
+        return hasattr(other, '_rgb_01') and self._rgb_01 == other._rgb_01
+
+    def __str__(self):
+        return str(self._rgb_01)
+
 
 Color = Colour
 

@@ -1,21 +1,22 @@
 from string import hexdigits
 
+from hypothesis._strategies import integers, builds
 from pytest import mark
 
 from src.colour import Colour, Color
 
-from hypothesis import given
+from hypothesis import given, reproduce_failure
 from hypothesis.strategies import text
 from hypothesis.strategies import sampled_from
 
 parametrize = mark.parametrize
 
 
-O1 = sampled_from(tuple(x / 100 for x in range(101)))
+_O1 = sampled_from(tuple(x / 100 for x in range(101)))
 
 
 @parametrize('Colour', (Colour, Color))
-@given(O1, O1, O1)
+@given(_O1, _O1, _O1)
 def test_rgb_01_should_be_retrievable(Colour, r, g, b):
     c = Colour.from_rgb_01(r, g, b)
     assert c.as_rgb_01() == (r, g, b)
@@ -49,3 +50,16 @@ def test_rgb_f_should_be_retrievable_from_rgb_01(Colour, r, g, b, fff):
 @given(text(alphabet=hexdigits, min_size=3, max_size=3))
 def test_rgb_f_should_have_stable_roundtrip(Colour, original):
     assert Colour.from_rgb_f(original).as_rgb_f() == original.lower()
+
+
+rgb = Colour.from_rgb_01
+
+
+@given(builds(rgb, _O1, _O1, _O1), integers())
+def test_use_colour_as_dictionary_key(k1, n):
+    d = {k1: n}
+    assert d[k1] == n
+    new_k1 = Colour.from_rgb_01(*k1.as_rgb_01())
+    assert d[new_k1] == n
+
+
