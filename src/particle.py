@@ -4,41 +4,41 @@ from vector2d import Vector2D
 class Particle:
 
     def __init__(self, r, pos, vel):
-        self._pos = Vector2D(*pos)
-        self._vel = Vector2D(*vel)
+        self.p = Vector2D(*pos)
+        self.v = Vector2D(*vel)
         self.r = r
 
     @property
     def x(self):
-        return self._pos.x
+        return self.p.x
 
     @x.setter
     def x(self, new):
-        self._pos.x = new
+        self.p.x = new
 
     @property
     def y(self):
-        return self._pos.y
+        return self.p.y
 
     @y.setter
     def y(self, new):
-        self._pos.y = new
+        self.p.y = new
 
     @property
     def vx(self):
-        return self._vel.x
+        return self.v.x
 
     @vx.setter
     def vx(self, new):
-        self._vel.x = new
+        self.p.x = new
 
     @property
     def vy(self):
-        return self._vel.y
+        return self.v.y
 
     @vy.setter
     def vy(self, new):
-        self._vel.y = new
+        self.v.y = new
 
     def move(self, dt):
         self.x += self.vx * dt
@@ -66,5 +66,3 @@ class Particle:
         if excess > 0:
             self.y -= 2 * excess
             self.vy = - self.vy
-
-

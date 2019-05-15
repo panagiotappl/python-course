@@ -3,10 +3,12 @@ from pytest import mark
 from hypothesis import given
 from hypothesis.strategies import floats
 
+from particle import Particle
+
 sensible_floats = floats(min_value=0.1, max_value=1e3, allow_nan=False, allow_infinity=False)
 FLOATS = sensible_floats
 
-from particle import Particle
+from math import sqrt
 
 
 @given(FLOATS, FLOATS, FLOATS, FLOATS, FLOATS)
@@ -113,3 +115,4 @@ def test_bounce_should_leave_Particle_within_boundaries(
     assert p.p.x - p.r >= xmin
     assert p.p.y + p.r <= ymax
     assert p.p.y - p.r >= ymin
+
