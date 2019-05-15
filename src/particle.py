@@ -1,68 +1,59 @@
-from vector2d import Vector2D
+from src.vector2d import Vector2D
 
 
 class Particle:
 
-    def __init__(self, r, pos, vel):
-        self.p = Vector2D(*pos)
-        self.v = Vector2D(*vel)
+    def __init__(self, r, xy, vxy):
         self.r = r
+        self._pos = Vector2D(* xy)
+        self._vel = Vector2D(*vxy)
 
     @property
-    def x(self):
-        return self.p.x
+    def x(self): return self._pos.x
 
     @x.setter
-    def x(self, new):
-        self.p.x = new
+    def x(self, new):   self._pos.x = new
 
     @property
-    def y(self):
-        return self.p.y
+    def y(self): return self._pos.y
 
     @y.setter
-    def y(self, new):
-        self.p.y = new
+    def y(self, new):   self._pos.y = new
 
     @property
-    def vx(self):
-        return self.v.x
+    def vx(self): return self._vel.x
 
     @vx.setter
-    def vx(self, new):
-        self.p.x = new
+    def vx(self, new):   self._vel.x = new
 
     @property
-    def vy(self):
-        return self.v.y
+    def vy(self): return self._vel.y
 
     @vy.setter
-    def vy(self, new):
-        self.v.y = new
+    def vy(self, new):   self._vel.y = new
 
     def move(self, dt):
-        self.x += self.vx * dt
-        self.y += self.vy * dt
+        self._pos += self._vel * dt
 
-    def bounce(self, mm):
-        x_min, x_max, y_min, y_max = mm
+    def bounce(self, bounding_box):
+        xmin, xmax, ymin, ymax = bounding_box
 
-        excess = x_min - (self.x - self.r)
+        excess = xmin - (self._pos.x - self.r)
         if excess > 0:
-            self.x += 2 * excess
-            self.vx = - self.vx
+            self._pos.x += 2 * excess
+            self._vel.x = - self._vel.x
 
-        excess = (self.x + self.r) - x_max
+        excess = (self._pos.x + self.r) - xmax
         if excess > 0:
-            self.x -= 2 * excess
-            self.vx = - self.vx
+            self._pos.x -= 2 * excess
+            self._vel.x = - self._vel.x
 
-        excess = y_min - (self.y - self.r)
+        excess = ymin - (self._pos.y - self.r)
         if excess > 0:
-            self.y += 2 * excess
-            self.vy = - self.vy
+            self._pos.y += 2 * excess
+            self._vel.y = - self._vel.y
 
-        excess = (self.y + self.r) - y_max
+        excess = (self._pos.y + self.r) - ymax
         if excess > 0:
-            self.y -= 2 * excess
-            self.vy = - self.vy
+            self._pos.y -= 2 * excess
+            self._vel.y = - self._vel.y
