@@ -3,6 +3,10 @@ class Colour:
     def from_rgb_01(cls, r, g, b):
         return cls(r, g, b)
 
+    @classmethod
+    def from_rgb_f(cls, rgb):
+        return cls(*(cls.f_to_n[d] / 15.0 for d in rgb.lower()))
+
     def __init__(self, r, g, b):
         self._rgb_01 = (r, g, b)
 
@@ -11,11 +15,6 @@ class Colour:
 
     f_to_n = {d: n for n, d in enumerate('0123456789abcdef')}
     n_to_f = {n: d for d, n in f_to_n.items()}
-
-    @staticmethod
-    def from_rgb_f(rgb):
-        c = Colour(*(Colour.f_to_n[d] / 15.0 for d in rgb.lower()))
-        return c
 
     def as_rgb_f(self):
         return ''.join(self.n_to_f[int(v*15)] for v in self._rgb_01)
