@@ -3,10 +3,11 @@ from vector2d import Vector2D
 
 class Particle:
 
-    def __init__(self, r, xy, vxy):
+    def __init__(self, r, xy, vxy, colour):
         self.r = r
         self._pos = Vector2D(* xy)
         self._vel = Vector2D(*vxy)
+        self.colour = colour
 
     @property
     def x(self): return self._pos.x

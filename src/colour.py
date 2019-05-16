@@ -32,7 +32,6 @@ class Colour:
         return f'{self.__class__.__name__}{str(self._rgb_01)}' # Colour(0,0,0)
 
 
-
 Color = Colour
 
 Colour.BLACK = Colour.from_rgb_01(0, 0, 0)

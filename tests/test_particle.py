@@ -10,7 +10,7 @@ from src.particle import Particle
 
 @given(FLOATS, FLOATS, FLOATS, FLOATS, FLOATS)
 def test_Particle_constructor_should_set_basic_attributes(r,x,y,vx,vy):
-    p = Particle(r, (x,y), (vx,vy))
+    p = Particle(r, (x,y), (vx,vy), 'colour')
     assert p.r  ==  r
     assert p.x  ==  x
     assert p.y  ==  y
@@ -19,7 +19,7 @@ def test_Particle_constructor_should_set_basic_attributes(r,x,y,vx,vy):
 
 @given(FLOATS, FLOATS, FLOATS, FLOATS, FLOATS)
 def test_Particle_should_move_with_constant_velocity(r,x,y,vx,vy):
-    p = Particle(r, (x,y), (vx,vy))
+    p = Particle(r, (x,y), (vx,vy), 'colour')
     dt = 10
     p.move(dt)
     assert p.r  ==  r
@@ -88,7 +88,7 @@ def test_Particle_bounce_should_be_elastic(
     x_new, y_new, vx_new, vy_new
     ):
 
-    p = Particle(r, (x,y), (vx,vy))
+    p = Particle(r, (x,y), (vx,vy), 'colour')
     p.bounce((xmin, xmax, ymin, ymax))
     assert p.x  ==  x_new
     assert p.y  ==  y_new
@@ -104,7 +104,7 @@ def test_bounce_should_leave_Particle_within_boundaries(
     x_new, y_new, vx_new, vy_new
     ):
 
-    p = Particle(r, (x,y), (vx,vy))
+    p = Particle(r, (x,y), (vx,vy), 'colour')
     p.bounce((xmin, xmax, ymin, ymax))
     assert p.x + p.r <= xmax
     assert p.x - p.r >= xmin

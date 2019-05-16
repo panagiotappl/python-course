@@ -1,16 +1,16 @@
 import tkinter as tk
 
-from particle import Particle
+from display import Display
 
 
-class TKinterDisplay:
+class TKinterDisplay(Display):
 
     def __init__(self):
         master = tk.Tk()
         canvas = tk.Canvas(master, width=600, height=400, bg='black')
         canvas.pack()
         self._canvas = canvas
-        self._p = Particle(30, (canvas.winfo_height() / 2, canvas.winfo_width() / 2), (80.0, 150.0))
+        self._particles = []
         self._fps = 60
 
     @property
@@ -18,16 +18,20 @@ class TKinterDisplay:
         return 0, self._canvas.winfo_width(), 0, self._canvas.winfo_height()
 
     def draw(self):
-        r, x, y, canvas = self._p.r, self._p.x, self._p.y, self._canvas
-        canvas.create_oval(x-r, y+r, x+r, y-r, outline="yellow")
+        p = self._particles
+        for particle in p:
+            r, x, y, canvas = particle.r, particle.x, particle.y, self._canvas
+            canvas.create_oval(x-r, y+r, x+r, y-r, outline=f'#{particle.colour.as_rgb_f()}')
 
     def update(self, dt):
-        p, canvas = self._p, self._canvas
+        particles, canvas = self._particles, self._canvas
 
         canvas.delete(tk.ALL)
-        p.move(dt)
-        p.bounce(self.bounding_box)
+
         self.draw()
+        for particle in particles:
+            particle.move(dt)
+            particle.bounce(self.bounding_box)
 
         canvas.update()
         canvas.after(17, self.update, 1 / self._fps)
