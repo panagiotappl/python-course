@@ -26,7 +26,11 @@ class Colour:
         return hasattr(other, '_rgb_01') and self._rgb_01 == other._rgb_01
 
     def __str__(self):
-        return str(self._rgb_01)
+        return f'<{self.__class__.__name__}: {str(self._rgb_01)}>'
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}{str(self._rgb_01)}' # Colour(0,0,0)
+
 
 
 Color = Colour

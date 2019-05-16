@@ -5,18 +5,18 @@ from pytest import mark
 
 from src.colour import Colour, Color
 
-from hypothesis import given, reproduce_failure
+from hypothesis import given, reproduce_failure, assume
 from hypothesis.strategies import text
 from hypothesis.strategies import sampled_from
 
 parametrize = mark.parametrize
 
 
-_O1 = sampled_from(tuple(x / 100 for x in range(101)))
+O1 = sampled_from(tuple(x / 100 for x in range(101)))
 
 
 @parametrize('Colour', (Colour, Color))
-@given(_O1, _O1, _O1)
+@given(O1, O1, O1)
 def test_rgb_01_should_be_retrievable(Colour, r, g, b):
     c = Colour.from_rgb_01(r, g, b)
     assert c.as_rgb_01() == (r, g, b)
@@ -55,11 +55,19 @@ def test_rgb_f_should_have_stable_roundtrip(Colour, original):
 rgb = Colour.from_rgb_01
 
 
-@given(builds(rgb, _O1, _O1, _O1), integers())
-def test_use_colour_as_dictionary_key(k1, n):
-    d = {k1: n}
-    assert d[k1] == n
+@given(builds(rgb, O1, O1, O1), integers(),
+       builds(rgb, O1, O1, O1), integers())
+def test_use_colour_as_dictionary_key(k1, v1, k2, v2):
+    assume(k1 != k2)
+    d = {k1: v1, k2: v2}
+    assert d[k1] == v1
     new_k1 = Colour.from_rgb_01(*k1.as_rgb_01())
-    assert d[new_k1] == n
+    new_k2 = Colour.from_rgb_01(*k2.as_rgb_01())
+    assert d[new_k1] == v1
+    assert d[new_k2] == v2
 
+
+@given(builds(rgb, O1, O1, O1))
+def test_Colour_repr_should_be_readable(c):
+    assert eval(repr(c)) == c
 
